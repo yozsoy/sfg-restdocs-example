@@ -1,6 +1,5 @@
 package guru.springframework.sfgrestdocsexample.web.controller;
 
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.sfgrestdocsexample.domain.Beer;
 import guru.springframework.sfgrestdocsexample.repositories.BeerRepository;
@@ -23,16 +22,17 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
 
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.springframework.guru", uriPort = 80)
@@ -57,7 +57,7 @@ class BeerControllerTest {
                 .param("iscold", "yes")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("v1/beer",
+                .andDo(document("v1/beer-get",
                         pathParameters (
                                 parameterWithName("beerId").description("UUID of desired beer to get.")
                         ),
@@ -88,7 +88,7 @@ class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
                 .andExpect(status().isCreated())
-                .andDo(document("v1/beer",
+                .andDo(document("v1/beer-new",
                         requestFields(
                                 fields.withPath("id").ignored(),
                                 fields.withPath("version").ignored(),
@@ -137,4 +137,5 @@ class BeerControllerTest {
                             .descriptionsForProperty(path), ". ")));
         }
     }
+
 }
